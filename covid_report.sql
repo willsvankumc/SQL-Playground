@@ -37,3 +37,24 @@ UPDATE covid_report SET site_name = 'Lees Summit Medical Center' WHERE site_id =
 UPDATE covid_report SET site_name = 'Kansas City VA Medical Center' WHERE site_id = '16';
 
 select * from covid_report; 
+
+select field_name, value from redcap_data where project_id='16558' and record='4' and field_name in (
+"covidpend_icu_bed",
+"covidpend_icu_bed_vent",
+"covidcfrm_icu_bed",
+"covidcfrm_icu_bed_vent",
+"noncovid_icu",
+"noncovid_icu_vent"
+) 
+and instance =
+(select max(instance) from redcap_data where project_id='16558' and field_name='covidpend_icu_bed' and record = '4')
+UNION
+select field_name, value from redcap_data where project_id='16558' and record='4' and field_name in (
+"icu_bed_num",
+"ventilator_num",
+"icu_bed_surge_num",
+"ventilator_surge_num"
+);
+
+
+SELECT IFNULL(NULL, 0);
